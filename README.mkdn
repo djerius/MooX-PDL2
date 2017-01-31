@@ -1,0 +1,69 @@
+# NAME
+
+MooX::PDL2 - A Moo based PDL 2.X object
+
+# VERSION
+
+version 0.01
+
+# SYNOPSIS
+
+    use Moo;
+    extends 'MooX::PDL2';
+
+# DESCRIPTION
+
+This class provides the thinest possible layer required to create a
+[Moo](https://metacpan.org/pod/Moo) object which is recognized by [PDL](https://metacpan.org/pod/PDL).
+
+See ["Background" in PDLx::DetachedObject](https://metacpan.org/pod/PDLx::DetachedObject#Background) for background information on
+sub-classing from **PDL**.
+
+## Classes without required constructor parameters
+
+**PDL** does not pass any parameters to a class' **initialize** method
+when constructing a new object.  Because of this, the default
+implementation of **MooX::PDL2::initialize()** returns a bare piddle,
+not an instance of **MooX::PDL2**, as it cannot know whether your class
+requires parameters during construction.
+
+If your class does _not_ require parameters be passed to the constructor,
+it is safe to overload the `initialize` method to return a fully fledged
+instance of your class:
+
+    sub initialize { shift->new() }
+
+## Overloaded operators
+
+[PDL](https://metacpan.org/pod/PDL) overloads a number of the standard Perl operators.  For the most part it
+does this using subroutines rather than methods, which makes it difficult to
+manipulate them.  Consider using [overload::reify](https://metacpan.org/pod/overload::reify) to wrap the overloads in
+methods, e.g.:
+
+    package MyPDL;
+    use Moo;
+    extends 'MooX::PDL2';
+    use overload::reify;
+
+# ATTRIBUTES
+
+## PDL
+
+The actual piddle associated with an object.  **PDL** routines
+will transparently uses this when passed an object.
+
+# SEE ALSO
+
+[PDLx::DetachedObject](https://metacpan.org/pod/PDLx::DetachedObject)
+
+# AUTHOR
+
+Diab Jerius <djerius@cpan.org>
+
+# COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2017 by Smithsonian Astrophysical Observatory.
+
+This is free software, licensed under:
+
+    The GNU General Public License, Version 3, June 2007
