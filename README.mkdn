@@ -52,6 +52,13 @@ methods, e.g.:
 The actual piddle associated with an object.  **PDL** routines
 will transparently uses this when passed an object.
 
+# METHODS
+
+## new
+
+    # null value
+    $pdl = MooX::PDL2->new;
+
 # SEE ALSO
 
 [PDLx::DetachedObject](https://metacpan.org/pod/PDLx::DetachedObject)

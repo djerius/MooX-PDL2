@@ -7,7 +7,14 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Scalar::Util qw[ blessed weaken ];
+use PDL::Lite;
+use Carp;
+
 use Moo;
+use MooX::ProtectedAttributes;
+
+use namespace::clean;
 
 # do not simply extend PDL on its own.
 
@@ -30,11 +37,37 @@ will transparently uses this when passed an object.
 
 =cut
 
-has PDL => (
-  is => 'ro',
-  default => sub { PDL->null }
+protected_has _PDL => (
+    is       => 'lazy',
+    init_arg => undef,
+    isa      => sub {
+        blessed $_[0] && blessed $_[0] eq 'PDL'
+          or croak( "_PDL attribute must be of class 'PDL'" );
+    },
+    coerce  => sub { PDL->topdl( $_[0] ) },
+    builder => sub { PDL->null },
+    clearer => 1,
 );
 
+protected_has PDL => (
+    is       => 'ro',
+    init_arg => undef,
+    default  => sub {
+        my $self = shift;
+	weaken $self;
+        sub { $self->_PDL };
+    },
+);
+
+namespace::clean->clean_subroutines( __PACKAGE__,  'PDL' );
+
+=method new
+
+  # null value
+  $pdl = MooX::PDL2->new;
+
+
+=cut
 
 1;
 

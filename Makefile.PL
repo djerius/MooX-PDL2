@@ -17,21 +17,29 @@ my %WriteMakefileArgs = (
   "MIN_PERL_VERSION" => "5.006",
   "NAME" => "MooX::PDL2",
   "PREREQ_PM" => {
+    "Carp" => 0,
     "Moo" => 0,
     "Moo::Object" => 0,
+    "MooX::ProtectedAttributes" => 0,
     "PDL" => "2.000",
+    "PDL::Lite" => 0,
     "PDLx::DetachedObject" => 0,
+    "Scalar::Util" => 0,
+    "namespace::clean" => 0,
     "strict" => 0,
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
     "Class::Method::Modifiers" => 0,
+    "Data::Dumper" => 0,
     "ExtUtils::MakeMaker" => 0,
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "Safe::Isa" => 0,
     "Test2::Bundle::Extended" => 0,
+    "Test2::Bundle::More" => 0,
+    "Test::API" => 0,
     "Test::More" => 0,
     "blib" => "1.01"
   },
@@ -43,19 +51,27 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "Carp" => 0,
   "Class::Method::Modifiers" => 0,
+  "Data::Dumper" => 0,
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
   "Moo" => 0,
   "Moo::Object" => 0,
+  "MooX::ProtectedAttributes" => 0,
   "PDL" => "2.000",
+  "PDL::Lite" => 0,
   "PDLx::DetachedObject" => 0,
   "Safe::Isa" => 0,
+  "Scalar::Util" => 0,
   "Test2::Bundle::Extended" => 0,
+  "Test2::Bundle::More" => 0,
+  "Test::API" => 0,
   "Test::More" => 0,
   "blib" => "1.01",
+  "namespace::clean" => 0,
   "strict" => 0,
   "warnings" => 0
 );

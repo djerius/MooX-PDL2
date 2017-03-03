@@ -1,18 +1,26 @@
+requires "Carp" => "0";
 requires "Moo" => "0";
 requires "Moo::Object" => "0";
+requires "MooX::ProtectedAttributes" => "0";
 requires "PDL" => "2.000";
+requires "PDL::Lite" => "0";
 requires "PDLx::DetachedObject" => "0";
+requires "Scalar::Util" => "0";
+requires "namespace::clean" => "0";
 requires "strict" => "0";
 requires "warnings" => "0";
 
 on 'test' => sub {
   requires "Class::Method::Modifiers" => "0";
+  requires "Data::Dumper" => "0";
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
   requires "IO::Handle" => "0";
   requires "IPC::Open3" => "0";
   requires "Safe::Isa" => "0";
   requires "Test2::Bundle::Extended" => "0";
+  requires "Test2::Bundle::More" => "0";
+  requires "Test::API" => "0";
   requires "Test::More" => "0";
   requires "blib" => "1.01";
   requires "perl" => "5.006";
