@@ -30,17 +30,40 @@ use namespace::clean;
 
 extends 'Moo::Object', 'PDLx::DetachedObject';
 
-=attr PDL
+=attr _PDL
 
 The actual piddle associated with an object.  B<PDL> routines
 will transparently uses this when passed an object.
 
+This attribute is
+
+=over
+
+=item *
+
+lazy
+
+=item *
+
+has a builder which returns C<< PDL->null >>
+
+=item *
+
+will coerce its argument to be a piddle
+
+=item *
+
+has a clearer
+
+=back
+
+See L</EXAMPLES> for fun ways of combining it with Moo's facilities.
+
 =cut
 
 protected_has _PDL => (
-    is       => 'lazy',
-    init_arg => undef,
-    isa      => sub {
+    is  => 'lazy',
+    isa => sub {
         blessed $_[0] && blessed $_[0] eq 'PDL'
           or croak( "_PDL attribute must be of class 'PDL'" );
     },
@@ -54,12 +77,12 @@ protected_has PDL => (
     init_arg => undef,
     default  => sub {
         my $self = shift;
-	weaken $self;
+        weaken $self;
         sub { $self->_PDL };
     },
 );
 
-namespace::clean->clean_subroutines( __PACKAGE__,  'PDL' );
+namespace::clean->clean_subroutines( __PACKAGE__, 'PDL' );
 
 =method new
 
@@ -83,11 +106,17 @@ __END__
 
 =head1 DESCRIPTION
 
-This class provides the thinest possible layer required to create a
+This class provides the thinnest possible layer required to create a
 L<Moo> object which is recognized by L<PDL>.
 
-See L<PDLx::DetachedObject/Background> for background information on
-sub-classing from B<PDL>.
+L<PDL> will treat a non-L<PDL> blessed hash as a L<PDL> object if it
+has a hash element with a key of C<PDL>.  That element may be a
+C<PDL> piddle or a I<subroutine> which returns a piddle.
+
+This class provides a C<PDL> method (which must not be overridden!) which
+returns the contents of the C<_PDL> attribute.  That attribute is yours
+to manipulate.
+
 
 =head2 Classes without required constructor parameters
 
@@ -115,6 +144,30 @@ methods, e.g.:
   extends 'MooX::PDL2';
   use overload::reify;
 
+
+=head1 EXAMPLES
+
+=head2 A class representing an evaluated polynomial
+
+This class represents an evaluated polynomial.  The polynomial coefficients and
+the values at which it is evaluated are attributes of the class.  When they are
+changed they trigger a change in the underlying piddle.
+
+Here's the definition:
+
+# EXAMPLE: examples/PolyNomial.pm
+
+Note that the attributes use triggers to clear C<_PDL> so that it will
+be recalculated when it is next accessed through the C<_PDL> attribute
+accessor.
+
+And here's how to use it
+
+# EXAMPLE: examples/poly.pl
+
+With sample output:
+
+# COMMAND: perl -Ilib -Iexamples examples/poly.pl
 
 =head1 SEE ALSO
 
