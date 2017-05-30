@@ -13,17 +13,17 @@ use PDL::Lite;
     extends 'MooX::PDL2';
 
     has '+_PDL' => (
-		    init_arg => 'pdl',
-		   );
+                    init_arg => 'pdl',
+                   );
 
     around BUILDARGS => sub {
 
-	my ( $orig, $class, @args ) = @_;
+        my ( $orig, $class, @args ) = @_;
 
-	return { pdl => $args[0] }
-	  if @args == 1 && 'HASH' ne ref $args[0];
+        return { pdl => $args[0] }
+          if @args == 1 && 'HASH' ne ref $args[0];
 
-	return $class->$orig( @args );
+        return $class->$orig( @args );
     };
 
 }

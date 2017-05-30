@@ -47,7 +47,7 @@ subtest "sequence" => sub {
 
     has x => (
         is      => 'rw',
-	required => 1,
+        required => 1,
         trigger => sub { $_[0]->_clear_PDL } );
 
     has coeffs => (
@@ -85,11 +85,11 @@ subtest "polynomial" => sub {
 
     $m->coeffs( [ 1, 3, 20 ] );
     is( $m->unpdl, [ 1, 24, 87, 190, 333, 516, 739, 1002, 1305, 1648 ],
-	"set coeffs" );
+        "set coeffs" );
 
     $m->x( PDL->sequence( 4 ) );
     is( $m->unpdl, [ 1, 24, 87, 190  ],
-	"set x" );
+        "set x" );
 
 };
 

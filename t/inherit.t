@@ -76,8 +76,8 @@ subtest "PDL constructor logging" => sub {
         subtest $method => sub {
             @::log = ();
             my $pdl = PDL->$method();
-	    # Test2::Tools::Class::isa_ok == 0.000061 doesn't handle
-	    # classes with overloaded bool operators correctly
+            # Test2::Tools::Class::isa_ok == 0.000061 doesn't handle
+            # classes with overloaded bool operators correctly
             ok( $pdl->isa( 'PDL' ), 'class is correct' );
             is( \@log, ["PDL::$method"], "logged" );
         };
@@ -124,17 +124,17 @@ subtest "Moo Machinery" => sub {
 subtest "inheritance" => sub {
 
     subtest "class" => sub {
-	my $s = MyPDLg1->sequence( 10 );
-	ok( $s->isa( 'MyPDLg1' ), "is a subclass" );
+        my $s = MyPDLg1->sequence( 10 );
+        ok( $s->isa( 'MyPDLg1' ), "is a subclass" );
 
-	is( [ $s->list ], [ 0 .. 9 ], "value" );
+        is( [ $s->list ], [ 0 .. 9 ], "value" );
     };
 
     subtest "object" => sub {
-	my $s = MyPDLg1->new->sequence( 10 );
-	ok( $s->isa( 'MyPDLg1' ), "is a subclass" );
+        my $s = MyPDLg1->new->sequence( 10 );
+        ok( $s->isa( 'MyPDLg1' ), "is a subclass" );
 
-	is( [ $s->list ], [ 0 .. 9 ], "sequence" );
+        is( [ $s->list ], [ 0 .. 9 ], "sequence" );
     };
 
 };
