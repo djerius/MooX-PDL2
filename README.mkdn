@@ -13,11 +13,16 @@ version 0.01
 
 # DESCRIPTION
 
-This class provides the thinest possible layer required to create a
+This class provides the thinnest possible layer required to create a
 [Moo](https://metacpan.org/pod/Moo) object which is recognized by [PDL](https://metacpan.org/pod/PDL).
 
-See ["Background" in PDLx::DetachedObject](https://metacpan.org/pod/PDLx::DetachedObject#Background) for background information on
-sub-classing from **PDL**.
+[PDL](https://metacpan.org/pod/PDL) will treat a non-[PDL](https://metacpan.org/pod/PDL) blessed hash as a [PDL](https://metacpan.org/pod/PDL) object if it
+has a hash element with a key of `PDL`.  That element may be a
+`PDL` piddle or a _subroutine_ which returns a piddle.
+
+This class provides a `PDL` method (which must not be overridden!) which
+returns the contents of the `_PDL` attribute.  That attribute is yours
+to manipulate.
 
 ## Classes without required constructor parameters
 
@@ -47,10 +52,19 @@ methods, e.g.:
 
 # ATTRIBUTES
 
-## PDL
+## \_PDL
 
 The actual piddle associated with an object.  **PDL** routines
 will transparently uses this when passed an object.
+
+This attribute is
+
+- lazy
+- has a builder which returns `PDL->null`
+- will coerce its argument to be a piddle
+- has a clearer
+
+See ["EXAMPLES"](#examples) for fun ways of combining it with Moo's facilities.
 
 # METHODS
 
@@ -59,9 +73,88 @@ will transparently uses this when passed an object.
     # null value
     $pdl = MooX::PDL2->new;
 
+# EXAMPLES
+
+## A class representing an evaluated polynomial
+
+This class represents an evaluated polynomial.  The polynomial coefficients and
+the values at which it is evaluated are attributes of the class.  When they are
+changed they trigger a change in the underlying piddle.
+
+Here's the definition:
+
+    package PolyNomial;
+    
+    use PDL::Lite;
+    
+    use Moo;
+    extends 'MooX::PDL2';
+    
+    has x => (
+        is       => 'rw',
+        required => 1,
+        trigger  => sub { $_[0]->_clear_PDL },
+    );
+    
+    has coeffs => (
+        is       => 'rw',
+        required => 1,
+        trigger  => sub { $_[0]->_clear_PDL },
+    );
+    
+    sub _build__PDL {
+    
+        my $self = shift;
+    
+        my $x     = $self->x;
+        my $coeff = $self->coeffs;
+    
+        # this calculation is not robust at all
+        my $pdl = $x->ones;
+        $pdl *= $coeff->[0];
+    
+        for ( my $exp = 1 ; $exp < @$coeff + 1 ; ++$exp ) {
+            $pdl += $coeff->[$exp] * $x**$exp;
+        }
+        $pdl;
+    }
+    
+    1;
+
+Note that the attributes use triggers to clear `_PDL` so that it will
+be recalculated when it is next accessed through the `_PDL` attribute
+accessor.
+
+And here's how to use it
+
+    use PDL::Lite;
+    use PolyNomial;
+    
+    my $m = PolyNomial->new( coeffs => [ 3, 4 ], x => PDL->sequence(10) );
+    print $m, "\n";
+    
+    $m *= 2;
+    print $m, "\n";
+    
+    $m->x( PDL->sequence( 5 ) );
+    print $m, "\n";
+
+With sample output:
+
+    [3 7 11 15 19 23 27 31 35 39]
+    [6 14 22 30 38 46 54 62 70 78]
+    [3 7 11 15 19]
+
+# BUGS AND LIMITATIONS
+
+You can make new bug reports, and view existing ones, through the
+web interface at [https://rt.cpan.org/Public/Dist/Display.html?Name=MooX-PDL2](https://rt.cpan.org/Public/Dist/Display.html?Name=MooX-PDL2).
+
 # SEE ALSO
 
-[PDLx::DetachedObject](https://metacpan.org/pod/PDLx::DetachedObject)
+Please see those modules/websites for more information related to this module.
+
+- [PDLx::DetachedObject](https://metacpan.org/pod/PDLx::DetachedObject)
 
 # AUTHOR
 

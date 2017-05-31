@@ -31,7 +31,6 @@ my %WriteMakefileArgs = (
   },
   "TEST_REQUIRES" => {
     "Class::Method::Modifiers" => 0,
-    "Data::Dumper" => 0,
     "ExtUtils::MakeMaker" => 0,
     "File::Spec" => 0,
     "IO::Handle" => 0,
@@ -53,7 +52,6 @@ my %WriteMakefileArgs = (
 my %FallbackPrereqs = (
   "Carp" => 0,
   "Class::Method::Modifiers" => 0,
-  "Data::Dumper" => 0,
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
