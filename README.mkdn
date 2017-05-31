@@ -4,7 +4,7 @@ MooX::PDL2 - A Moo based PDL 2.X object
 
 # VERSION
 
-version 0.01
+version 0.02
 
 # SYNOPSIS
 
