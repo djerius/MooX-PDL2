@@ -58,6 +58,7 @@ use MooX::PDL2;
         $pdl *= $coeff->[0];
 
         for ( my $exp = 1 ; $exp < @$coeff + 1 ; ++$exp ) {
+            next if !defined $coeff->[$exp];
             $pdl += $coeff->[$exp] * $x**$exp;
         }
         $pdl;
