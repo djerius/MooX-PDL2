@@ -65,7 +65,7 @@ protected_has _PDL => (
     is  => 'lazy',
     isa => sub {
         blessed $_[0] && blessed $_[0] eq 'PDL'
-          or croak( "_PDL attribute must be of class 'PDL'" );
+          or croak( q{_PDL attribute must be of class 'PDL'} );
     },
     coerce  => sub { PDL->topdl( $_[0] ) },
     builder => sub { PDL->null },
@@ -98,6 +98,10 @@ namespace::clean->clean_subroutines( __PACKAGE__, 'PDL' );
 
 __END__
 
+=pod
+
+=for stopwords
+PDL
 
 =head1 SYNOPSIS
 
@@ -172,3 +176,5 @@ With sample output:
 =head1 SEE ALSO
 
 L<PDLx::DetachedObject>
+
+=cut

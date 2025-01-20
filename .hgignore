@@ -1,0 +1,7 @@
+[.]build
+[.]plx
+[.]tidyall[.]d
+[~]$
+^local
+^dev
+^MooX-PDL2

@@ -42,7 +42,7 @@ instance of your class:
 
 [PDL](https://metacpan.org/pod/PDL) overloads a number of the standard Perl operators.  For the most part it
 does this using subroutines rather than methods, which makes it difficult to
-manipulate them.  Consider using [overload::reify](https://metacpan.org/pod/overload::reify) to wrap the overloads in
+manipulate them.  Consider using [overload::reify](https://metacpan.org/pod/overload%3A%3Areify) to wrap the overloads in
 methods, e.g.:
 
     package MyPDL;
@@ -50,7 +50,7 @@ methods, e.g.:
     extends 'MooX::PDL2';
     use overload::reify;
 
-# ATTRIBUTES
+# OBJECT ATTRIBUTES
 
 ## \_PDL
 
@@ -145,16 +145,27 @@ With sample output:
     [6 14 22 30 38 46 54 62 70 78]
     [3 7 11 15 19]
 
-# BUGS AND LIMITATIONS
+# SUPPORT
 
-You can make new bug reports, and view existing ones, through the
-web interface at [https://rt.cpan.org/Public/Dist/Display.html?Name=MooX-PDL2](https://rt.cpan.org/Public/Dist/Display.html?Name=MooX-PDL2).
+## Bugs
+
+Please report any bugs or feature requests to bug-moox-pdl2@rt.cpan.org  or through the web interface at: [https://rt.cpan.org/Public/Dist/Display.html?Name=MooX-PDL2](https://rt.cpan.org/Public/Dist/Display.html?Name=MooX-PDL2)
+
+## Source
+
+Source is available at
+
+    https://gitlab.com/djerius/moox-pdl2
+
+and may be cloned from
+
+    https://gitlab.com/djerius/moox-pdl2.git
 
 # SEE ALSO
 
 Please see those modules/websites for more information related to this module.
 
-- [PDLx::DetachedObject](https://metacpan.org/pod/PDLx::DetachedObject)
+- [PDLx::DetachedObject](https://metacpan.org/pod/PDLx%3A%3ADetachedObject)
 
 # AUTHOR
 
