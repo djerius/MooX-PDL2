@@ -4,7 +4,7 @@ MooX::PDL2 - A Moo based PDL 2.X object
 
 # VERSION
 
-version 0.02
+version 0.03
 
 # SYNOPSIS
 
@@ -113,9 +113,9 @@ Here's the definition:
         my $pdl = $x->ones;
         $pdl *= $coeff->[0];
     
-        for ( my $exp = 1 ; $exp < @$coeff + 1 ; ++$exp ) {
-            $pdl += $coeff->[$exp] * $x**$exp;
-        }
+        $pdl += $coeff->[$_] * $x**$_
+          for 1..@$coeff-1;
+    
         $pdl;
     }
     
